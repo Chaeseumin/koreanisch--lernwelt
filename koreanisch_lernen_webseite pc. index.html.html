@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fuchs Lernwelt – PC Version</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:Arial,"Trebuchet MS",sans-serif;
+  background:
+    radial-gradient(circle at 15% 10%,rgba(255,95,162,.28),transparent 24%),
+    radial-gradient(circle at 85% 12%,rgba(124,108,255,.32),transparent 25%),
+    linear-gradient(135deg,#0b0620,#1f0f4a,#050b25);
+  color:white;
+  min-height:100vh;
+}
+.app{max-width:1280px;margin:auto;min-height:100vh;padding:24px 28px 50px}
+.header{
+  text-align:center;
+  padding:30px 20px;
+  font-size:3rem;
+  font-weight:900;
+  color:#ff9bd6;
+  text-shadow:0 0 18px #ff5fa2;
+}
+.subtitle{text-align:center;color:#eadfff;margin-top:-18px;margin-bottom:24px;font-size:1.2rem}
+.topnav{
+  display:flex;
+  justify-content:center;
+  gap:14px;
+  flex-wrap:wrap;
+  margin-bottom:28px;
+  position:sticky;
+  top:0;
+  z-index:20;
+  background:rgba(12,6,32,.82);
+  backdrop-filter:blur(8px);
+  padding:14px;
+  border-radius:24px;
+  border:2px solid rgba(255,255,255,.12);
+}
+.topnav button{width:auto;min-width:150px;margin:0}
+.card{
+  background:rgba(255,255,255,.96);
+  color:#21152f;
+  border-radius:28px;
+  padding:28px;
+  margin:16px 0;
+  box-shadow:0 18px 42px rgba(0,0,0,.25);
+  border:3px solid rgba(255,255,255,.9);
+}
+button{
+  padding:15px 22px;
+  border:none;
+  border-radius:999px;
+  background:linear-gradient(90deg,#ff5fa2,#7c6cff);
+  color:white;
+  margin-top:12px;
+  font-weight:900;
+  cursor:pointer;
+  font-size:1rem;
+  box-shadow:0 9px 20px rgba(0,0,0,.18);
+}
+button:hover{filter:brightness(1.1);transform:translateY(-1px)}
+.hidden{display:none}.good{color:green;font-weight:bold}.bad{color:#ff367e;font-weight:bold}.mini{font-size:1rem;color:#555;line-height:1.6}.korean{font-size:2rem;font-weight:900;margin:12px 0;color:#111}.task{padding:13px 14px;border-bottom:1px solid #ddd;font-size:1.08rem}.done{background:#c8ffd8;border-radius:12px}.month-btn{background:linear-gradient(90deg,#ff5fa2,#7c6cff);width:100%;font-size:1.1rem}.hardcore{background:linear-gradient(90deg,#ff3b3b,#ff9c2a);width:100%;font-size:1.1rem}
+.dashboard{display:grid;grid-template-columns:1fr 1.15fr;gap:28px;align-items:start}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(310px,1fr));gap:18px}
+.lesson-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:14px}.lesson-grid button{text-align:left;border-radius:18px;width:100%;min-height:72px;font-size:1rem}
+.level-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}.level-grid button{width:100%;border-radius:18px;min-height:70px;text-align:left}.locked{opacity:.45}
+.memory-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:18px}.mem-card{height:95px;border-radius:20px;background:#7c6cff;color:white;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:1.05rem;cursor:pointer;text-align:center;padding:8px}.mem-card.open,.mem-card.matched{background:#c8ffd8;color:#111}.mem-card.matched{opacity:.75}
+.match-row{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:18px}.match-item{padding:18px;border:3px solid #ddd;border-radius:18px;text-align:center;cursor:pointer;background:#f7f4ff;margin-bottom:12px;font-size:1.08rem;font-weight:800}.match-item.selected{border-color:#7c6cff;background:#e9e4ff}.match-item.done{background:#c8ffd8;border-color:#64d47f}
+.boss{font-size:2rem;text-align:center;color:#ff4d6d}.bar{height:32px;background:#eee;border-radius:999px;overflow:hidden;margin:14px 0}.fill{height:100%;background:linear-gradient(90deg,#ff5fa2,#7c6cff,#55d7ff);width:0%;transition:.3s}
+.lesson-page{max-width:980px;margin:auto}.lesson-page .card{padding:36px}.lesson-page h3{font-size:2rem;color:#ff5fa2}.lesson-page p{font-size:1.1rem}.lesson-actions{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:18px}.lesson-actions button{width:100%}
+.profile-box h3,.card h3{font-size:1.45rem;margin-bottom:10px;color:#6b56ff}.profile-box p{font-size:1.1rem}.fox-title{font-size:1.8rem;text-align:center;margin-bottom:10px}
+@media(max-width:850px){.app{padding:14px}.header{font-size:2rem}.dashboard{grid-template-columns:1fr}.memory-grid{grid-template-columns:repeat(2,1fr)}.topnav button{min-width:120px}.lesson-actions{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="app">
+<div class="header">🦊 Fuchs Lernwelt – PC Version</div>
+<p class="subtitle">Große Desktop-Version mit Monat 1, Monat 2, Hardcore Mode, Rätseln und Boss-Leveln</p>
+
+<div class="topnav">
+  <button onclick="go('home')">🏠 Übersicht</button>
+  <button onclick="selectMonth(1)">🌸 Monat 1</button>
+  <button onclick="selectMonth(2)">🌙 Monat 2</button>
+  <button onclick="selectMonth(3)">🔥 Hardcore</button>
+  <button onclick="startMemory(1)">🧠 Memory</button>
+  <button onclick="startMatching(2)">🔗 Matching</button>
+  <button onclick="startBoss(3)">⚔️ Boss</button>
+</div>
+
+<div id="home">
+  <div class="dashboard">
+    <div>
+      <div class="card profile-box">
+        <div class="fox-title">🦊💙 Jasmin / 🐱🌈 Nadine</div>
+        <h3>👤 Profil</h3>
+        <p id="profile"></p>
+        <div class="bar"><div id="xpFill" class="fill"></div></div>
+        <p id="xpText"></p>
+      </div>
+
+      <div class="card">
+        <h3>📚 Monats-Menü</h3>
+        <button class="month-btn" onclick="selectMonth(1)">🌸 Monat 1 – Hangul & Grundlagen</button>
+        <button class="month-btn" onclick="selectMonth(2)">🌙 Monat 2 – Sätze & Grammatik</button>
+        <button class="hardcore" onclick="selectMonth(3)">🔥 Hardcore Mode – extra schwer</button>
+        <p class="mini" id="monthInfo"></p>
+      </div>
+    </div>
+
+    <div>
+      <div class="card">
+        <h3 id="lessonTitle">📅 Lerntage</h3>
+        <div id="lessonList" class="lesson-grid"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>🧩 Rätsel-Level</h3>
+    <p class="mini">Memory, Matching und Boss-Fragen geben XP und schalten neue Rätsel frei.</p>
+    <div id="levelList" class="level-grid"></div>
+  </div>
+</div>
+
+<div id="lesson" class="hidden lesson-page">
+  <div class="card">
+    <h3 id="dailyTitle"></h3>
+    <p id="dailyFocus"></p>
+    <p class="korean" id="dailyWords"></p>
+    <div id="dailyTasks"></div>
+    <div class="lesson-actions">
+      <button onclick="finishLesson()">✅ Lesson abschließen +25 XP</button>
+      <button onclick="go('home')">⬅ Zurück zur Übersicht</button>
+    </div>
+  </div>
+</div>
+
+<div id="memory" class="hidden">
+  <div class="card">
+    <h3>🧠 Memory</h3>
+    <p id="memoryInfo"></p>
+    <div class="memory-grid" id="memoryGrid"></div>
+    <p id="memoryResult" style="font-size:1.2rem;margin-top:14px"></p>
+    <button onclick="startMemory(currentLevel)">Neu mischen</button>
+  </div>
+</div>
+
+<div id="matching" class="hidden">
+  <div class="card">
+    <h3>🔗 Matching</h3>
+    <p>Verbinde Koreanisch mit Deutsch.</p>
+    <div class="match-row"><div id="leftMatch"></div><div id="rightMatch"></div></div>
+    <p id="matchResult" style="font-size:1.2rem;margin-top:14px"></p>
+    <button onclick="startMatching(currentLevel)">Neu starten</button>
+  </div>
+</div>
+
+<div id="boss" class="hidden">
+  <div class="card">
+    <h3 class="boss">👾 Boss-Level</h3>
+    <p id="bossQuestion" style="font-size:1.4rem;text-align:center;margin:18px 0"></p>
+    <div id="bossOptions" class="grid"></div>
+    <p id="bossResult" style="font-size:1.2rem;margin-top:14px;text-align:center"></p>
+  </div>
+</div>
+</div>
+
+<script>
+let user = localStorage.getItem('user') || prompt('Name (Jasmin/Nadine)');
+if(!user) user='Jasmin';
+localStorage.setItem('user', user);
+let xp = Number(localStorage.getItem(user+'_xp')||0);
+let unlocked = Number(localStorage.getItem(user+'_unlocked')||1);
+let selectedMonth = Number(localStorage.getItem(user+'_month')||1);
+let currentLesson = 1;
+let currentLevel = 1;
+
+const month1 = [
+  ['Tag 1','Vokale ㅏ ㅓ ㅗ ㅜ',['아','어','오','우'],['Vokale 15x schreiben','Jeden Laut 5x sprechen','10 Silben lesen','Mini-Test machen','Schwierige Zeichen markieren']],
+  ['Tag 2','Vokale ㅡ ㅣ ㅐ ㅔ',['으','이','애','에'],['Neue Vokale schreiben','Alte Vokale wiederholen','15 Silben lesen','5 Wörter abschreiben','Ohne Hilfe testen']],
+  ['Tag 3','Konsonanten ㄱ ㄴ ㄷ ㄹ',['가','나','다','라'],['Konsonanten 15x schreiben','Silben bauen','laut lesen','Fehler korrigieren','Mini-Diktat']],
+  ['Tag 4','Konsonanten ㅁ ㅂ ㅅ ㅇ',['마','바','사','아'],['Konsonanten schreiben','Silben mischen','10 Wörter lesen','Aussprache üben','Selbsttest']],
+  ['Tag 5','Lesetraining',['가','나','다','마','사'],['30 Silben lesen','langsam und schnell lesen','schreiben','Fehlerliste','wiederholen']],
+  ['Tag 6','Erste Wörter',['안녕','네','아니요','감사합니다'],['Wörter lernen','10x schreiben','Bedeutung merken','laut sprechen','Mini-Dialog']],
+  ['Tag 7','Sonntag Wochentest',['안녕','네','가','나','감사합니다'],['Woche wiederholen','20 Wörter schreiben','10 Fragen Test','Aussprache üben','Fehler verbessern']]
+];
+
+const month2 = [
+  ['Tag 31','Satzbau: Ich bin ...',['저는','입니다','학생','사람'],['Satzmuster lesen: 저는 학생입니다','5 eigene Sätze schreiben','Wörter 10x schreiben','laut sprechen','Mini-Übersetzung machen','Fehler verbessern']],
+  ['Tag 32','Thema-Partikel 은/는',['저는','너는','고양이는','여우는'],['은/는 markieren','4 Beispielsätze lesen','5 eigene Sätze bauen','laut sprechen','Mini-Test','Wiederholung von Tag 31']],
+  ['Tag 33','좋아요 / 싫어요',['좋아요','싫어요','물','김치','고양이'],['5 Dinge mögen/nicht mögen schreiben','좋아요 10x schreiben','싫어요 10x schreiben','Mini-Dialog bauen','laut lesen','Quiz machen']],
+  ['Tag 34','Fragen mit 뭐예요?',['이거','저거','뭐예요','책','물'],['Frageform lernen','5 Fragen schreiben','Antworten üben','Matching machen','laut sprechen','Wörter wiederholen']],
+  ['Tag 35','Orte + 입니다',['집','학교','공원','가게','방'],['Orte lernen','Sätze mit 장소 bauen','5x lesen','10x schreiben','Mini-Test','Fehlerliste']],
+  ['Tag 36','Alltagssätze',['오늘','내일','어제','지금','좋아요'],['Zeitwörter lernen','3 Sätze mit 오늘','3 Sätze mit 내일','lesen','sprechen','Wiederholung']],
+  ['Tag 37','Sonntag Wochentest 1',['저는 학생입니다','좋아요','뭐예요','집','오늘'],['Alle Sätze der Woche lesen','20 Wörter/Sätze schreiben','10 Fragen Wochentest','Aussprache 10 Minuten','Fehler verbessern','Belohnung abholen']],
+  ['Tag 38','Verben 1: gehen/kommen',['가요','와요','먹어요','마셔요'],['Verben lesen','Bedeutungen lernen','4 Mini-Sätze schreiben','laut sprechen','Memory machen','Wiederholen']],
+  ['Tag 39','Objekt-Partikel 을/를',['물을','밥을','김치를','책을'],['을/를 markieren','Beispiele lesen','5 Sätze schreiben','Fehler korrigieren','Mini-Test','laut sprechen']],
+  ['Tag 40','Ich esse/trinke',['밥을 먹어요','물을 마셔요','김치를 먹어요'],['Sätze abschreiben','eigene Sätze bauen','lesen','sprechen','Übersetzen','Wiederholen']],
+  ['Tag 41','Höfliche Sätze',['안녕하세요','감사합니다','죄송합니다','괜찮아요'],['höfliche Wörter lernen','10x schreiben','Dialog bauen','laut sprechen','Quiz','Fehler verbessern']],
+  ['Tag 42','Familie',['엄마','아빠','언니','오빠','동생'],['Familienwörter lernen','Sätze schreiben','Bedeutungen verbinden','laut lesen','Mini-Test','Wiederholen']],
+  ['Tag 43','Hobbys',['게임','음악','그림','공부','운동'],['Hobbys lernen','좋아요-Sätze bauen','5 eigene Sätze','laut sprechen','Matching','Wiederholen']],
+  ['Tag 44','Sonntag Wochentest 2',['물을 마셔요','밥을 먹어요','게임 좋아요','엄마','가요'],['Woche komplett wiederholen','20 Sätze lesen','10 Fragen Test','Aussprache','Fehlerliste','Bonus-Rätsel']],
+  ['Tag 45','Mini-Dialog 1',['안녕하세요','저는','좋아요','감사합니다'],['Dialog lesen','Dialog abschreiben','eigenen Namen einsetzen','laut vorsprechen','Quiz machen','Wiederholen']],
+  ['Tag 46','Beschreiben mit Adjektiven',['커요','작아요','예뻐요','귀여워요'],['Adjektive lernen','5 Beschreibungen schreiben','Tier-Sätze bauen','laut sprechen','Memory','Fehler korrigieren']],
+  ['Tag 47','Tiere beschreiben',['고양이가 귀여워요','여우가 예뻐요'],['Satzmuster lesen','5 Tier-Sätze schreiben','laut sprechen','übersetzen','Mini-Test','Wiederholen']],
+  ['Tag 48','Wo ist ...?',['어디예요','집이에요','학교예요','공원이에요'],['Frage lernen','Antworten schreiben','Orte wiederholen','Dialog bauen','laut sprechen','Quiz']],
+  ['Tag 49','Zahlen Wiederholung',['하나','둘','셋','넷','다섯','열'],['Zahlen 1-10 wiederholen','5 Zahlensätze','laut zählen','Memory','Mini-Test','Fehler verbessern']],
+  ['Tag 50','Lesetag',['안녕하세요','저는 학생입니다','물을 마셔요','고양이가 귀여워요'],['lange Sätze lesen','3x laut vorlesen','abschreiben','übersetzen','schwierige Wörter markieren','Wiederholen']],
+  ['Tag 51','Sonntag Wochentest 3',['귀여워요','어디예요','집이에요','물을 마셔요'],['Woche wiederholen','15 Fragen Test','10 Sätze schreiben','Aussprache','Fehler verbessern','Belohnung']],
+  ['Tag 52','Kleine Geschichte',['저는 Jasmin입니다','고양이를 좋아해요','물을 마셔요'],['Mini-Geschichte lesen','abschreiben','eigene Version schreiben','laut sprechen','Wörter markieren','Quiz']],
+  ['Tag 53','Mehr Fragen',['누구예요','언제예요','뭐예요','어디예요'],['Fragewörter lernen','4 Fragen schreiben','4 Antworten schreiben','laut sprechen','Matching','Wiederholen']],
+  ['Tag 54','Antworten üben',['저예요','오늘이에요','집이에요','물이에요'],['Antwortmuster lernen','Fragen beantworten','Dialog bauen','laut lesen','Mini-Test','Fehler verbessern']],
+  ['Tag 55','Wiederholung Grammatik',['은/는','을/를','이에요','예요'],['Partikel sortieren','10 Beispielsätze','Fehler finden','Übersetzen','laut sprechen','Rätsel']],
+  ['Tag 56','Boss Training',['감사합니다','저는 학생입니다','물을 마셔요','어디예요'],['Boss-Fragen üben','20 Wörter wiederholen','10 Sätze lesen','Aussprache','Mini-Prüfung','Belohnung']],
+  ['Tag 57','Sonntag Wochentest 4',['누구예요','어디예요','저예요','집이에요'],['Wochentest','alle Fragewörter','10 Antworten schreiben','sprechen','Fehlerliste','Bonus XP']],
+  ['Tag 58','Monatsprüfung Vorbereitung',['저는','좋아요','먹어요','마셔요','어디예요'],['alle Grammatik wiederholen','20 Sätze lesen','10 Sätze schreiben','Memory schwer','Boss üben','Fehler verbessern']],
+  ['Tag 59','Monatsprüfung',['안녕하세요','저는 학생입니다','고양이가 귀여워요','물을 마셔요'],['großer Lesetest','großer Schreibtest','10 Übersetzungen','Boss-Level','Aussprache 10 Min','Belohnung']],
+  ['Tag 60','Abschluss Monat 2',['축하해요','화이팅','잘했어요'],['Lieblingssätze schreiben','Monat 2 wiederholen','eigene Mini-Geschichte','laut vorlesen','Final Boss besiegen','Feiern 🎉']]
+];
+const hardcore = [
+  ['Hardcore 1','Ohne Hilfe lesen',['저는 학생입니다','물을 마셔요','고양이가 귀여워요'],['alle Sätze ohne Hilfe lesen','übersetzen','auswendig sprechen','Fehler verbessern']],
+  ['Hardcore 2','Boss Rush',['감사합니다','어디예요','좋아요','먹어요'],['5 Bossfragen','Memory schwer','Matching schwer','10 Sätze schreiben']]
+];
+function getLessons(){return selectedMonth===1?month1:selectedMonth===2?month2:hardcore}
+const vocab = [
+  ['안녕','Hallo'],['감사합니다','Danke'],['고양이','Katze'],['여우','Fuchs'],['물','Wasser'],['밥','Reis/Essen'],['집','Haus'],['학교','Schule'],['오늘','Heute'],['내일','Morgen'],['좋아요','Gut / ich mag es'],['아니요','Nein'],['저는 학생입니다','Ich bin Schüler/in'],['물을 마셔요','Ich trinke Wasser'],['뭐예요','Was ist das?'],['귀여워요','süß']
+];
+const levels = [
+  {id:1,title:'Level 1: Memory leicht',type:'memory',amount:3,xp:15},
+  {id:2,title:'Level 2: Matching leicht',type:'matching',amount:4,xp:20},
+  {id:3,title:'Level 3: Boss-Frage',type:'boss',amount:4,xp:30},
+  {id:4,title:'Level 4: Memory schwer',type:'memory',amount:5,xp:30},
+  {id:5,title:'Level 5: Matching schwer',type:'matching',amount:6,xp:35},
+  {id:6,title:'Final Boss: Monats-Test',type:'boss',amount:6,xp:60}
+];
+function save(){localStorage.setItem(user+'_xp',xp);localStorage.setItem(user+'_unlocked',unlocked);localStorage.setItem(user+'_month',selectedMonth)}
+function go(id){['home','lesson','memory','matching','boss'].forEach(x=>document.getElementById(x).classList.add('hidden'));document.getElementById(id).classList.remove('hidden');render()}
+function addXP(n){xp+=n;if(xp>=unlocked*80 && unlocked<6) unlocked++;save();render()}
+function selectMonth(m){selectedMonth=m;save();go('home')}
+function render(){
+  const lvl=Math.floor(xp/100)+1;
+  document.getElementById('profile').textContent=user+' · Level '+lvl;
+  document.getElementById('xpText').textContent=xp+' XP · Rätsel-Level: '+unlocked+'/6';
+  document.getElementById('xpFill').style.width=Math.min(100,xp%100)+'%';
+  document.getElementById('monthInfo').textContent=selectedMonth===1?'Aktuell: Monat 1 – Grundlagen':selectedMonth===2?'Aktuell: Monat 2 – Sätze & Grammatik':'Aktuell: Hardcore Mode';
+  document.getElementById('lessonTitle').textContent=selectedMonth===1?'🌸 Monat 1 Lerntage':selectedMonth===2?'🌙 Monat 2 Lerntage':'🔥 Hardcore Mode';
+  document.getElementById('lessonList').innerHTML=getLessons().map((l,i)=>`<button onclick="openLesson(${i})"><b>${l[0]}</b><br>${l[1]}</button>`).join('');
+  document.getElementById('levelList').innerHTML=levels.map(l=>{const lock=l.id>unlocked;const action=l.type==='memory'?`startMemory(${l.id})`:l.type==='matching'?`startMatching(${l.id})`:`startBoss(${l.id})`;return `<button class="${lock?'locked':''}" ${lock?'disabled':''} onclick="${action}">${lock?'🔒':'⭐'} ${l.title}<br>+${l.xp} XP</button>`}).join('');
+}
+function openLesson(i){currentLesson=i;const l=getLessons()[i];document.getElementById('dailyTitle').textContent=l[0]+' – '+l[1];document.getElementById('dailyFocus').textContent='Fokus: '+l[1];document.getElementById('dailyWords').textContent=l[2].join(' · ');document.getElementById('dailyTasks').innerHTML=l[3].map(t=>`<div class="task"><input type="checkbox" onchange="this.parentElement.classList.toggle('done',this.checked)"> ${t}</div>`).join('');go('lesson')}
+function finishLesson(){addXP(25);go('home')}
+function shuffle(a){return [...a].sort(()=>Math.random()-.5)}
+function sample(n){return shuffle(vocab).slice(0,n)}
+let first=null,second=null,lock=false,matched=0;
+function startMemory(levelId){currentLevel=levelId;const level=levels.find(l=>l.id===levelId);const pairs=sample(level.amount);let cards=[];pairs.forEach(p=>{cards.push({text:p[0],key:p[0]});cards.push({text:p[1],key:p[0]})});cards=shuffle(cards);matched=0;first=null;second=null;lock=false;document.getElementById('memoryInfo').textContent=level.title+' · Finde die Paare.';document.getElementById('memoryResult').textContent='';document.getElementById('memoryGrid').innerHTML=cards.map((c,i)=>`<div class="mem-card" data-key="${c.key}" data-text="${c.text}" onclick="flipCard(this)">?</div>`).join('');go('memory')}
+function flipCard(el){if(lock||el.classList.contains('open')||el.classList.contains('matched'))return;el.classList.add('open');el.textContent=el.dataset.text;if(!first){first=el;return}second=el;lock=true;if(first.dataset.key===second.dataset.key){first.classList.add('matched');second.classList.add('matched');matched++;first=null;second=null;lock=false;const level=levels.find(l=>l.id===currentLevel);if(matched===level.amount){document.getElementById('memoryResult').textContent='🎉 Geschafft! +'+level.xp+' XP';document.getElementById('memoryResult').className='good';addXP(level.xp)}}else{setTimeout(()=>{first.classList.remove('open');second.classList.remove('open');first.textContent='?';second.textContent='?';first=null;second=null;lock=false},800)}}
+let selectedLeft=null,selectedRight=null,matchDone=0;
+function startMatching(levelId){currentLevel=levelId;const level=levels.find(l=>l.id===levelId);const pairs=sample(level.amount);matchDone=0;selectedLeft=null;selectedRight=null;document.getElementById('matchResult').textContent='';document.getElementById('leftMatch').innerHTML=shuffle(pairs).map(p=>`<div class="match-item" data-key="${p[0]}" onclick="selectMatch(this,'left')">${p[0]}</div>`).join('');document.getElementById('rightMatch').innerHTML=shuffle(pairs).map(p=>`<div class="match-item" data-key="${p[0]}" onclick="selectMatch(this,'right')">${p[1]}</div>`).join('');go('matching')}
+function selectMatch(el,side){if(el.classList.contains('done'))return;if(side==='left'){if(selectedLeft)selectedLeft.classList.remove('selected');selectedLeft=el}else{if(selectedRight)selectedRight.classList.remove('selected');selectedRight=el}el.classList.add('selected');if(selectedLeft&&selectedRight){if(selectedLeft.dataset.key===selectedRight.dataset.key){selectedLeft.classList.add('done');selectedRight.classList.add('done');matchDone++;selectedLeft=null;selectedRight=null;const level=levels.find(l=>l.id===currentLevel);if(matchDone===level.amount){document.getElementById('matchResult').textContent='🎉 Alles richtig! +'+level.xp+' XP';document.getElementById('matchResult').className='good';addXP(level.xp)}}else{document.getElementById('matchResult').textContent='Nicht ganz, versuch ein anderes Paar.';document.getElementById('matchResult').className='bad';selectedLeft.classList.remove('selected');selectedRight.classList.remove('selected');selectedLeft=null;selectedRight=null}}}
+function startBoss(levelId){currentLevel=levelId;const level=levels.find(l=>l.id===levelId);const q=sample(1)[0];const opts=shuffle([q[1],...shuffle(vocab.filter(v=>v[1]!==q[1])).slice(0,3).map(v=>v[1])]);document.getElementById('bossQuestion').textContent='Was bedeutet: '+q[0]+' ?';document.getElementById('bossResult').textContent='';document.getElementById('bossOptions').innerHTML=opts.map(o=>`<button onclick="bossAnswer('${o.replace(/'/g,'')}','${q[1].replace(/'/g,'')}')">${o}</button>`).join('');go('boss')}
+function bossAnswer(answer,correct){const level=levels.find(l=>l.id===currentLevel);if(answer===correct){document.getElementById('bossResult').textContent='⚔️ Boss besiegt! +'+level.xp+' XP';document.getElementById('bossResult').className='good';addXP(level.xp)}else{document.getElementById('bossResult').textContent='Boss hat geblockt! Richtige Antwort: '+correct;document.getElementById('bossResult').className='bad'}}
+render();
+</script>
+</body>
+</html>
